@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+	<h1>Good HR</h1>
+	<ul class="chat-thread" id="chat-thread">
+		<li>What can I help you with?</li>
+	</ul>
+
+	<form class="chat-window" id='chat-form' action="{% url 'chats' %}" method="POST">
+		{% csrf_token %}
+		<input class="chat-window-message" id="chat-window-message" name="chat-window-message" type="text" autocomplete="off" autofocus />
+	</form>
+	<script type="text/javascript">
+	$(document).on('submit','#chat-form',function(e){
+		e.preventDefault();
+
+		$.ajax({
+			type:'POST',
+			url:'/chats',
+			data:{
+				message:$('#chat-window-message').val(),
+				csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+			},
+			success: function(response){
+			var temp="<li>"+response.answer+"</li>"
+			$("#chat-thread").append(temp);
+			},
+			error: function(response){
+				alert('An error occured. Refresh the page.')
+				}
+		});
+		
+		document.getElementById('message').value='#chat-thread'
+	})
+	</script>
+{% endblock %}
