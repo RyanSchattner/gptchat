@@ -78,7 +78,7 @@ def chats2(request):
 		#def form_valid(self, form):
 		form=request.POST['message']
 		print('passed',form)
-		openai.api_key ="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"
+		openai.api_key ="Keygoeshere"
 		start_sequence = "\nA:"
 		restart_sequence = "\n\nQ: "
 		response = openai.Answer.create(
